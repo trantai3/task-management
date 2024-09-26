@@ -1,14 +1,18 @@
 const express = require('express')
 require("dotenv").config()
 const database = require('./config/database')
-const Task = require('./api/v1/models/task.model')
+const bodyParser = require('body-parser')
+const routesAPI = require('./api/v1/routes/index.route')
+
 
 database.connect()
 
 const app = express()
 const port = process.env.PORT
 
-const routesAPI = require('./api/v1/routes/index.route')
+// parse application/json
+app.use(bodyParser.json())
+
 routesAPI(app)
 
 app.listen(port, () => {
