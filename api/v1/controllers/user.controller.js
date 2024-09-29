@@ -100,7 +100,7 @@ module.exports.forgotPassword = async (req, res) => {
     const objectForgotPassword = {
         email: email,
         otp: otp,
-        expireAt: Date.now() + timeExpire*60
+        expireAt: Date.now() + timeExpire*60*1000
     }
 
     const forgotPassword = new ForgotPassword(objectForgotPassword)
@@ -185,17 +185,9 @@ module.exports.resetPassword = async (req, res) => {
 
 // [GET] /users/detail
 module.exports.detail = async (req, res) => {
-    const token = req.cookies.token
-    
-    const user = await User.findOne({
-        token: token,
-        deleted: false
-    }).select("-password -token")
-
-
     res.json({
         code: 200,
         message: "Thành công!",
-        info: user
+        info: req.user
     })
 }
